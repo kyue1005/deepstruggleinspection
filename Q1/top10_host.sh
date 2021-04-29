@@ -17,7 +17,7 @@ while getopts hf: opt; do
 done
 
 if [ -f "${FILE}" ]; then
-  gzip -dc "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 10
+  gzip -dc "${FILE}" | awk '{print $1}' | sort | uniq -c | sort -r | head -n 10
 else
   echo "${FILE} not exist"
 fi

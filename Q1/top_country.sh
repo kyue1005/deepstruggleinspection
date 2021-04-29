@@ -17,7 +17,7 @@ while getopts hf: opt; do
 done
 
 if [ -f "${FILE}" ]; then
-  TOP_IP=$(gzip -dc "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 1 | cut -d' ' -f2)
+  TOP_IP=$(gzip -dc "${FILE}" | awk '{print $1}' | sort | uniq -c | sort -r | head -n 1 | awk '{print $2}')
   whois ${TOP_IP} | grep -iE ^country:
 else
   echo "${FILE} not exist"
