@@ -8,7 +8,7 @@ usage() {
     exit -1
 }
 
-while getopt ":f" opt; do
+while getopts hf: opt; do
   case "${opt}" in
     f) FILE="${OPTARG}";;
     h) usage;;
@@ -16,12 +16,8 @@ while getopt ":f" opt; do
   esac
 done
 
-echo $opt
-
-if [ -z "${f}" ]; then
-    usage
-fi
-
 if [ -f "${FILE}" ]; then
-  gzip -d "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 10
+  gzip -dc "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 10
+else
+  echo "${FILE} not exist"
 fi
