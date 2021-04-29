@@ -18,10 +18,10 @@ done
 
 echo $opt
 
-# if [ -z "${f}" ]; then
-#     usage
-# fi
+if [ -z "${f}" ]; then
+    usage
+fi
 
-# if [ -f "${FILE}" ]; then
-#   gzip -d "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 10
-# fi
+if [ -f "${FILE}" ]; then
+  gzip -d "${FILE}" | cut -d' ' -f1 | sort | uniq -c | sort -r | head -n 10
+fi
