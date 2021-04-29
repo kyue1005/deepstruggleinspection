@@ -60,4 +60,8 @@ resource "aws_instance" "dev" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_read_only.name
   subnet_id                   = aws_subnet.dev_subnet.id
   vpc_security_group_ids      = [aws_security_group.dev_ssh_sg.id]
+
+  tags = {
+    Name = "dev"
+  }
 }
