@@ -42,7 +42,6 @@ func New(cfg Config) Shortener {
 
 	s.Router.POST("/newurl", s.shorten)
 	s.Router.GET("/:key", s.redirect)
-	s.Router.HandleMethodNotAllowed = false
 
 	return s
 }
@@ -121,6 +120,12 @@ func (s *Shortener) shorten(w http.ResponseWriter, r *http.Request, _ httprouter
 func (s *Shortener) redirect(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	log := s.Config.Log
 	key := ps.ByName("key")
+
+	if key == "healthz" {
+		w.Write([]byte("OK"))
+		return
+	}
+
 	u, err := s.ShortUrlMap.GetItem("key", key)
 	if err != nil {
 		log.Error(err.Error())

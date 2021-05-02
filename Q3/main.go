@@ -33,11 +33,11 @@ func init() {
 }
 
 func validateInput() {
-	if len(table) == 0 {
+	if len(domain) == 0 {
 		log.Fatal("missing short url domain name")
 	}
 
-	if len(domain) == 0 {
+	if len(table) == 0 {
 		log.Fatal("missing dynamodb table name")
 	}
 
