@@ -13,13 +13,13 @@ variable "aws_subnet_id" {
 variable "aws_region" {
   type = string
 }
-variable "source_ami" {
+variable "aws_account_id" {
   type = string
 }
 variable "domain" {
   type = string
 }
-variable "db_table" {
+variable "dynamodb_table_name" {
   type = string
 }
 variable "port" {
@@ -29,7 +29,15 @@ variable "port" {
 source "amazon-ebs" "url-shortener" {
   subnet_id                   = var.aws_subnet_id
   region                      = var.aws_region
-  source_ami                  = var.source_ami
+  source_ami_filter {
+    filters = {
+      name                = "url_shorter_ubuntu_base"
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+    }
+    most_recent = true
+    owners      = [var.aws_account_id]
+  }
   associate_public_ip_address = true
   ami_name                    = "url_shorter_ubuntu_{{timestamp}}"
   instance_type               = "t2.micro"
@@ -55,8 +63,8 @@ build {
   provisioner "shell" {
     environment_vars = [
       "DOMAIN=${var.domain}",
-      "PORT=${var.port}"
-      "DB_TABLE=${var.db_table}",
+      "PORT=${var.port}",
+      "DB_TABLE=${var.dynamodb_table_name}",
       "REGION=${var.aws_region}"
     ]
     execute_command = "sudo -S sh -c '{{ .Vars }} {{ .Path }}'"

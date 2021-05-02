@@ -10,7 +10,7 @@ service shortener stop
 envsubst  < shortener.service.tpl > shortener.service
 mv shortener.service /etc/systemd/system/
 systemctl daemon-reload
-service shortener.service restart
+service shortener start
 
 # update nginx conf
 envsubst  < nginx.conf.tpl > nginx.shortener.conf

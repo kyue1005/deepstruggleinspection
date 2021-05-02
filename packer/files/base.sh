@@ -10,7 +10,7 @@ rm -rf src
 envsubst  < shortener.service.tpl > shortener.service
 mv shortener.service /etc/systemd/system/
 systemctl daemon-reload
-service shortener.service start
+service shortener start
 
 # setup nginx
 envsubst  < nginx.conf.tpl > nginx.shortener.conf

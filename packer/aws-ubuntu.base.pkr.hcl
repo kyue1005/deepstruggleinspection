@@ -19,7 +19,7 @@ variable "base_ami" {
 variable "domain" {
   type = string
 }
-variable "db_table" {
+variable "dynamodb_table_name" {
   type = string
 }
 variable "port" {
@@ -56,7 +56,7 @@ build {
     environment_vars = [
       "DOMAIN=${var.domain}",
       "PORT=${var.port}",
-      "DB_TABLE=${var.db_table}",
+      "DB_TABLE=${var.dynamodb_table_name}",
       "REGION=${var.aws_region}"
     ]
     execute_command = "sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
