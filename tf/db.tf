@@ -5,7 +5,7 @@ resource "random_pet" "this" {
 module "dynamodb_table" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name     = "short-url-map-${random_pet.this.id}"
+  name     = var.dynamodb_table_name
   hash_key = "key"
 
   attributes = [
