@@ -21,7 +21,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&domain, "d", "", "short url domain")
+	flag.StringVar(&domain, "d", "", "short url domain (required)")
 	flag.StringVar(&table, "t", "", "dynamodb table name (required)")
 	flag.StringVar(&region, "r", "us-east-1", "dynamodb aws region (required)")
 	flag.IntVar(&keylength, "l", 9, "length of shorten key")
@@ -37,12 +37,12 @@ func validateInput() {
 		log.Fatal("missing short url domain name")
 	}
 
-	if len(table) == 0 {
+	if len(domain) == 0 {
 		log.Fatal("missing dynamodb table name")
 	}
 
 	if len(region) == 0 {
-		log.Fatal("missing dynamodb aws region")
+		log.Fatal("missing aws region")
 	}
 }
 
