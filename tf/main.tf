@@ -10,3 +10,7 @@ resource "aws_key_pair" "dev_key" {
   key_name   = "dev-key"
   public_key = var.dev_ssh_key
 }
+
+data "aws_security_group" "default" {
+  id = "sg-ff8a8f84"
+}

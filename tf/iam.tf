@@ -20,7 +20,7 @@ resource "aws_iam_role" "ec2_read_only" {
   ]
 }
 
-resource "aws_iam_policy" "url_shortener" {
+resource "aws_iam_policy" "url_shortener_policy" {
   name        = "url-shortener-dynamodb-access"
   description = "url shortener"
 
@@ -51,8 +51,8 @@ resource "aws_iam_policy" "url_shortener" {
   })
 }
 
-resource "aws_iam_role" "url_shortener" {
-  name        = "url-shortener"
+resource "aws_iam_role" "url_shortener_role" {
+  name        = "url-shortener-role"
   description = "Allows EC2 instances to call AWS services on your behalf."
   assume_role_policy = jsonencode(
     {
@@ -69,6 +69,6 @@ resource "aws_iam_role" "url_shortener" {
     }
   )
   managed_policy_arns = [
-    aws_iam_policy.url_shortener.arn,
+    aws_iam_policy.url_shortener_policy.arn,
   ]
 }
