@@ -1,6 +1,6 @@
-
-resource "aws_eip" "dev" {
-  vpc = true
+resource "aws_iam_instance_profile" "ec2_read_only" {
+  name = "ec2-read-only"
+  role = aws_iam_role.ec2_read_only.name
 }
 
 resource "aws_security_group" "dev_ssh_sg" {
@@ -28,25 +28,10 @@ resource "aws_security_group" "dev_ssh_sg" {
   vpc_id = data.aws_vpc.dev_vpc.id
 }
 
-resource "aws_iam_instance_profile" "ec2_read_only" {
-  name = "ec2-read-only"
-  role = aws_iam_role.ec2_read_only.name
-}
-
-resource "aws_key_pair" "dev_key" {
-  key_name   = "dev-key"
-  public_key = var.dev_ssh_key
-}
-
-resource "aws_eip_association" "dev_eip_assoc" {
-  instance_id   = aws_instance.dev.id
-  allocation_id = aws_eip.dev.id
-}
-
 resource "aws_instance" "dev" {
   ami                         = var.dev_ssh_ami
   associate_public_ip_address = "true"
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   key_name                    = aws_key_pair.dev_key.key_name
   iam_instance_profile        = aws_iam_instance_profile.ec2_read_only.name
   subnet_id                   = aws_subnet.dev_subnet_a.id
@@ -55,4 +40,13 @@ resource "aws_instance" "dev" {
   tags = {
     Name = "dev"
   }
+}
+
+resource "aws_eip" "dev" {
+  vpc = true
+}
+
+resource "aws_eip_association" "dev_eip_assoc" {
+  instance_id   = aws_instance.dev.id
+  allocation_id = aws_eip.dev.id
 }

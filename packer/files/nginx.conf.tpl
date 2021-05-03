@@ -1,5 +1,5 @@
 server {
-    server_name $DOMAIN;
+    server_name _;
 
     location / {
         proxy_pass http://localhost:$PORT;

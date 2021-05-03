@@ -27,7 +27,7 @@ variable "port" {
 }
 
 source "amazon-ebs" "url-shortener" {
-  subnet_id                   = var.aws_subnet_id
+  # subnet_id                   = var.aws_subnet_id
   region                      = var.aws_region
   source_ami_filter {
     filters = {

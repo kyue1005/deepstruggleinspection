@@ -1,7 +1,3 @@
-resource "random_pet" "this" {
-  length = 2
-}
-
 module "dynamodb_table" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 

@@ -1,7 +1,0 @@
-aws_subnet_id       = "subnet-xxxxxx"
-aws_region          = "us-east-1"
-aws_account_id      = "xxxx"
-base_ami            = "ami-042e8287309f5df03"
-port                = "8080"
-domain              = "example.com"
-dynamodb_table_name = "short-url-map"
