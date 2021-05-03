@@ -134,7 +134,6 @@ func (s *Shortener) redirect(w http.ResponseWriter, r *http.Request, ps httprout
 	}
 
 	if u.SrcUrl == "" {
-		log.Info("whwhw")
 		log.Warn(fmt.Sprintf("no url mapped to request: %s", key))
 		w.WriteHeader(404)
 		return
