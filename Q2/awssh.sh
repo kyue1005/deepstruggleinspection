@@ -14,14 +14,11 @@ if [ -z ${INSTANCE_NAME_TAG} ]; then
   usage
 fi
 
-INSTANCE=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${INSTANCE_NAME_TAG}")
-RESERVATIONS=$(echo "${INSTANCE}" | jq -r '.Reservations | .[]')
+IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${INSTANCE_NAME_TAG}" --query "Reservations[].Instances[].PublicIpAddress" | jq -r '.[]' | head -n 1)
 
-if [ -z "${RESERVATIONS}" ]; then
+if [ -z "${IP}" ]; then
   echo "Host not found"
   exit -1
 fi
-
-IP=$(echo "${RESERVATIONS}" | jq -r '.Instances | .[] | .PublicIpAddress' | head -n 1)
 
 exec ssh ec2-user@${IP}
