@@ -93,4 +93,4 @@ This script is to build versioned application image using the base image and dep
 
 After the script complete, the asg would rolling update the instance with new versioned ami
 
-** scripts is tested in MacOS shell only **
+Note: scripts is tested in MacOS shell only
