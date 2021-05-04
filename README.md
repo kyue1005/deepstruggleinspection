@@ -88,7 +88,7 @@ dev_ssh_key         = "" # ssh pub key
 ./init.sh
 ```
 
-This script is to build base application image
+This script is to build base application image and apply tf resources
 
 ### Deploy
 
@@ -96,7 +96,7 @@ This script is to build base application image
 ./deploy.sh
 ```
 
-This script is to build versioned application image using the base image and deploy/update the application using terraform
+This script is to build versioned application image using the base image and update ami in launch configuration using terraform to trigger rolling update on autoscaling group
 
 After the script complete, the asg would rolling update the instance with new versioned ami
 
