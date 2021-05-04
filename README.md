@@ -84,20 +84,20 @@ dev_ssh_key         = "" # ssh pub key
 
 ### Initialize
 
+This script is to build base application image and apply tf resources
+
 ```shell
 ./init.sh
 ```
 
-This script is to build base application image and apply tf resources
-
 ### Deploy
+
+This script is to build versioned application ami using the base image and update the ami in launch configuration using terraform
+
+Autoscaling group would gracefully roll out ec2 instance with newly packed ami after launch configuration updated
 
 ```shell
 ./deploy.sh
 ```
-
-This script is to build versioned application image using the base image and update ami in launch configuration using terraform to trigger rolling update on autoscaling group
-
-After the script complete, the asg would rolling update the instance with new versioned ami
 
 Note: scripts is tested in MacOS shell only
