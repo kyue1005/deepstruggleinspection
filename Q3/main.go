@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	l "github.com/kyue1005/deepstruggleinspection/Q3/logger"
 	"github.com/kyue1005/deepstruggleinspection/Q3/shortener"
@@ -58,8 +59,10 @@ func main() {
 	})
 
 	srv := &http.Server{
-		Addr:    ":" + strconv.Itoa(configPort),
-		Handler: s.Router,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		Addr:         ":" + strconv.Itoa(configPort),
+		Handler:      s.Router,
 	}
 
 	if err := srv.ListenAndServe(); err != nil {
