@@ -5,12 +5,55 @@
 * aws cli
 * packer
 * terraform
+* jq
+* whois
 
 Please setup your aws cli with `aws configure` and make sure you have full access right
 
-Your AWS account should have a default vpc and subnet to start work with 
+Your AWS account should have a default vpc and subnet to start work with
 
-## Config
+## Q1
+
+* req_cnt.sh - count requests in access log
+
+Usage:
+
+```shell
+req_cnt.sh -f [file.gz]
+```
+
+* top_country.sh - find top country in the access log
+
+Usage:
+
+```shell
+top_country.sh -f [file.gz]
+
+```
+
+* top10_host.sh - find top 10 host with in period with access log
+
+Usage:
+
+```shell
+top10_host.sh -f [file.gz]
+```
+
+## Q2
+
+A script to ssh to ec2 node by Name tag
+
+Usage:
+
+```shell
+awssh.sh [ec2 name tag]
+```
+
+## Q3
+
+This is an url-shortener application in golang
+
+### Config
 
 create `variables.pkvars.hcl` under `packer` folder with following attributes
 
@@ -32,7 +75,7 @@ dynamodb_table_name = "short-url-map-xxxx"
 dev_ssh_key         = "" # ssh pub key
 ```
 
-## Initialize
+### Initialize
 
 ```shell
 ./init.sh
@@ -40,7 +83,7 @@ dev_ssh_key         = "" # ssh pub key
 
 This script is to build base application image
 
-## Deploy
+### Deploy
 
 ```shell
 ./deploy.sh
