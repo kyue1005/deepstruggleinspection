@@ -1,4 +1,6 @@
 #! /bin/bash
+START_DT="10/Jun/2020:00:00:00"
+END_DT="19/Jun/2020:23:59:59"
 
 usage() {
     echo "Usage:"
@@ -17,7 +19,9 @@ while getopts hf: opt; do
 done
 
 if [ -f "${FILE}" ]; then
-  gzip -dc "${FILE}" | awk '{print $1}' | sort | uniq -c | sort -t ' ' -k 1rn | head -n 10
+  # echo "\$4 >= \"[${START_DT}\" && \$4 <= \"[${END_DT}\" {print \$1 \$4}"
+  # gzip -dc "${FILE}" | awk "\$4 >= \"[${START_DT}\" && \$4 <= \"[${END_DT}\" {print \$1 \$4}" | head -n 1
+  gzip -dc "${FILE}" | awk "\$4 >= \"[${START_DT}\" && \$4 <= \"[${END_DT}\" {print \$1 $4 }" | sort | uniq -c | sort -t ' ' -k 1rn | head -n 10
 else
   echo "${FILE} not exist"
 fi
