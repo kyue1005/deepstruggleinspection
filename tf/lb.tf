@@ -16,7 +16,7 @@ resource "aws_security_group" "url_shortener_lb_sg" {
 resource "aws_security_group_rule" "url_shortener_lb_egress" {
   type              = "egress"
   to_port           = 80
-  protocol          = "-1"
+  protocol          = "tcp"
   from_port         = 80
   source_security_group_id = aws_security_group.url_shortener_instance_sg.id
   security_group_id = aws_security_group.url_shortener_lb_sg.id

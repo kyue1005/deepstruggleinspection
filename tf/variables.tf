@@ -6,9 +6,16 @@ variable "dynamodb_table_name" {
   description = "Table name for DynamoDB"
 }
 
-variable "dev_ssh_ami" {
-  description = "AMI for ssh machine"
-  default     = "ami-048f6ed62451373d9"
+variable "subnet_a_cidr" {
+  description = "Subnet cidr for zone a"
+}
+
+variable "subnet_b_cidr" {
+  description = "Subnet cidr for zone b"
+}
+
+variable "subnet_c_cidr" {
+  description = "Subnet cidr for zone c"
 }
 
 variable "dev_ssh_key" {

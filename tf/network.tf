@@ -1,6 +1,6 @@
 resource "aws_subnet" "url_shortener_subnet_a" {
   vpc_id            = data.aws_vpc.dev_vpc.id
-  cidr_block        = "172.31.20.0/24"
+  cidr_block        = var.subnet_a_cidr
   availability_zone = "us-east-1a"
 
   tags = {
@@ -10,7 +10,7 @@ resource "aws_subnet" "url_shortener_subnet_a" {
 
 resource "aws_subnet" "url_shortener_subnet_b" {
   vpc_id            = data.aws_vpc.dev_vpc.id
-  cidr_block        = "172.31.30.0/24"
+  cidr_block        = var.subnet_b_cidr
   availability_zone = "us-east-1b"
 
   tags = {
@@ -20,7 +20,7 @@ resource "aws_subnet" "url_shortener_subnet_b" {
 
 resource "aws_subnet" "url_shortener_subnet_c" {
   vpc_id            = data.aws_vpc.dev_vpc.id
-  cidr_block        = "172.31.40.0/24"
+  cidr_block        = var.subnet_c_cidr
   availability_zone = "us-east-1c"
 
 

@@ -37,18 +37,25 @@ resource "aws_security_group" "url_shortener_instance_sg" {
   }
   ingress {
     cidr_blocks = [
-      "0.0.0.0/0",
+      "113.254.184.209/32",
     ]
-    from_port        = 0
+    from_port        = 22
     ipv6_cidr_blocks = []
-    protocol         = "-1"
-    to_port          = 0
+    protocol         = "tcp"
+    to_port          = 22
   }
   name   = "url-shortener-instance-sg"
   vpc_id = data.aws_vpc.dev_vpc.id
 }
 
-
+resource "aws_security_group_rule" "url_shortener_instance_sg_lb" {
+  type              = "ingress"
+  to_port           = 80
+  protocol          = "tcp"
+  from_port         = 80
+  source_security_group_id = aws_security_group.url_shortener_lb_sg.id
+  security_group_id = aws_security_group.url_shortener_instance_sg.id
+}
 
 resource "aws_launch_configuration" "url_shortener_conf" {
   name_prefix   = "url-shortener-"
