@@ -99,5 +99,3 @@ Autoscaling group would gracefully roll out ec2 instance with newly packed ami a
 ```shell
 ./deploy.sh
 ```
-
-Note: scripts is tested in MacOS shell only
