@@ -83,9 +83,8 @@ module "url_shortener_asg" {
 
   name = "url-shortener-asg"
 
-  min_size         = 2
-  max_size         = 10
-  desired_capacity = 2
+  min_size = var.asg_min
+  max_size = var.asg_max
 
   instance_refresh = {
     strategy = "Rolling"

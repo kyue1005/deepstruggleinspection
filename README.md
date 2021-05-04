@@ -74,6 +74,11 @@ create `terraform.tfvars` under `tf` folder with following attributes
 ```hcl
 aws_account_id      = ""
 dynamodb_table_name = "short-url-map-xxxx"
+subnet_a_cidr       = "172.31.20.0/24"
+subnet_b_cidr       = "172.31.30.0/24"
+subnet_c_cidr       = "172.31.40.0/24"
+asg_min             = 2
+asg_max             = 5
 dev_ssh_key         = "" # ssh pub key
 ```
 

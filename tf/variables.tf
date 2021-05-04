@@ -21,3 +21,11 @@ variable "subnet_c_cidr" {
 variable "dev_ssh_key" {
   description = "Public Key for ssh machine"
 }
+
+variable "asg_min" {
+  description = "Minimum replica for autoscaling group"
+}
+
+variable "asg_max" {
+  description = "Maximum replica for autoscaling group"
+}
