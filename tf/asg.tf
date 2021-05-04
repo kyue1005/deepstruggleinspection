@@ -54,7 +54,7 @@ resource "aws_security_group_rule" "url_shortener_instance_sg_egress" {
   protocol          = "tcp"
   from_port         = 80
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.url_shortener_lb_sg.id
+  security_group_id = aws_security_group.url_shortener_instance_sg.id
 }
 
 
@@ -67,8 +67,6 @@ resource "aws_launch_configuration" "url_shortener_conf" {
   iam_instance_profile = aws_iam_instance_profile.url_shortener_profile.name
 
   security_groups = [aws_security_group.url_shortener_instance_sg.id]
-
-  associate_public_ip_address = true
 
   user_data = file("./scripts/service.sh")
 
