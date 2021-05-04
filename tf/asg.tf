@@ -26,36 +26,37 @@ resource "aws_iam_instance_profile" "url_shortener_profile" {
 
 resource "aws_security_group" "url_shortener_instance_sg" {
   description = "default VPC security group"
-  egress {
-    cidr_blocks = [
-      "0.0.0.0/0",
-    ]
-    from_port        = 0
-    ipv6_cidr_blocks = []
-    protocol         = "-1"
-    to_port          = 0
-  }
-  ingress {
-    cidr_blocks = [
-      "113.254.184.209/32",
-    ]
-    from_port        = 22
-    ipv6_cidr_blocks = []
-    protocol         = "tcp"
-    to_port          = 22
-  }
-  name   = "url-shortener-instance-sg"
-  vpc_id = data.aws_vpc.dev_vpc.id
+  name        = "url-shortener-instance-sg"
+  vpc_id      = data.aws_vpc.dev_vpc.id
+}
+
+resource "aws_security_group_rule" "url_shortener_instance_sg_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+  cidr_blocks       = ["113.254.184.209/32"]
+  security_group_id = aws_security_group.url_shortener_instance_sg.id
 }
 
 resource "aws_security_group_rule" "url_shortener_instance_sg_lb" {
-  type              = "ingress"
+  type                     = "ingress"
+  to_port                  = 80
+  protocol                 = "tcp"
+  from_port                = 80
+  source_security_group_id = aws_security_group.url_shortener_lb_sg.id
+  security_group_id        = aws_security_group.url_shortener_instance_sg.id
+}
+
+resource "aws_security_group_rule" "url_shortener_instance_sg_egress" {
+  type              = "egress"
   to_port           = 80
   protocol          = "tcp"
   from_port         = 80
-  source_security_group_id = aws_security_group.url_shortener_lb_sg.id
-  security_group_id = aws_security_group.url_shortener_instance_sg.id
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.url_shortener_lb_sg.id
 }
+
 
 resource "aws_launch_configuration" "url_shortener_conf" {
   name_prefix   = "url-shortener-"
@@ -69,7 +70,7 @@ resource "aws_launch_configuration" "url_shortener_conf" {
 
   associate_public_ip_address = true
 
-  user_data = "${file("./scripts/service.sh")}"
+  user_data = file("./scripts/service.sh")
 
   lifecycle {
     create_before_destroy = true
