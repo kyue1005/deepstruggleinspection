@@ -36,8 +36,10 @@ top_country.sh -f [file.gz]
 Usage:
 
 ```shell
-top10_host.sh -f [file.gz]
+top10_host.sh -f [file.gz] -s [start datetime - dd/mm/yyyy:hh:mm:ss] -e [end datetime - dd/mm/yyyy:hh:mm:ss]
 ```
+
+Assumption: logs are in apache log format and in order
 
 ## Q2
 
