@@ -30,6 +30,16 @@ resource "aws_security_group" "url_shortener_instance_sg" {
   vpc_id      = data.aws_vpc.dev_vpc.id
 }
 
+resource "aws_security_group_rule" "url_shortener_instance_sg_ssm" {
+  type              = "ingress"
+  from_port         = 443
+  protocol          = "tcp"
+  to_port           = 443
+  cidr_blocks       = [data.aws_vpc.dev_vpc.cidr_block]
+  security_group_id = aws_security_group.url_shortener_instance_sg.id
+  description       = "ssh"
+}
+
 resource "aws_security_group_rule" "url_shortener_instance_sg_ssh" {
   type              = "ingress"
   from_port         = 22
@@ -37,6 +47,7 @@ resource "aws_security_group_rule" "url_shortener_instance_sg_ssh" {
   to_port           = 22
   cidr_blocks       = ["113.254.184.209/32"]
   security_group_id = aws_security_group.url_shortener_instance_sg.id
+  description       = "ssh"
 }
 
 resource "aws_security_group_rule" "url_shortener_instance_sg_lb" {
@@ -46,15 +57,17 @@ resource "aws_security_group_rule" "url_shortener_instance_sg_lb" {
   from_port                = 80
   source_security_group_id = aws_security_group.url_shortener_lb_sg.id
   security_group_id        = aws_security_group.url_shortener_instance_sg.id
+  description              = "alb"
 }
 
 resource "aws_security_group_rule" "url_shortener_instance_sg_egress" {
   type              = "egress"
-  to_port           = 80
-  protocol          = "tcp"
-  from_port         = 80
+  to_port           = 0
+  protocol          = "-1"
+  from_port         = 0
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.url_shortener_instance_sg.id
+  description       = "allow all"
 }
 
 

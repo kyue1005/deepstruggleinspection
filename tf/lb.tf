@@ -11,6 +11,7 @@ resource "aws_security_group_rule" "url_shortener_lb_ingress" {
   from_port         = 80
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.url_shortener_lb_sg.id
+  description       = "http"
 }
 
 resource "aws_security_group_rule" "url_shortener_lb_egress" {
@@ -20,6 +21,7 @@ resource "aws_security_group_rule" "url_shortener_lb_egress" {
   from_port                = 80
   source_security_group_id = aws_security_group.url_shortener_instance_sg.id
   security_group_id        = aws_security_group.url_shortener_lb_sg.id
+  description              = "asg instance"
 }
 
 module "url_shortener_alb" {
