@@ -16,6 +16,10 @@ while getopts hf: opt; do
   esac
 done
 
+if [ -z ${FILE} ]; then
+  usage
+fi
+
 if [ -f "${FILE}" ]; then
   gzip -dc "${FILE}" | sed -r '/^\s*$/d' | wc -l
 else
