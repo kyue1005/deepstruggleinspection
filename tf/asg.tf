@@ -45,7 +45,7 @@ resource "aws_security_group_rule" "url_shortener_instance_sg_ssh" {
   from_port         = 22
   protocol          = "tcp"
   to_port           = 22
-  cidr_blocks       = ["113.254.184.209/32"]
+  cidr_blocks       = [var.dev_ssh_cidr]
   security_group_id = aws_security_group.url_shortener_instance_sg.id
   description       = "ssh"
 }

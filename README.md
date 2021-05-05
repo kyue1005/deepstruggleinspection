@@ -80,6 +80,7 @@ subnet_c_cidr       = "172.31.40.0/24"
 asg_min             = 2
 asg_max             = 5
 dev_ssh_key         = "" # ssh pub key
+dev_ssh_cidr        = "x.x.x.x/32"
 ```
 
 ### Initialize
