@@ -22,6 +22,10 @@ variable "dev_ssh_key" {
   description = "Public Key for ssh machine"
 }
 
+variable "dev_ssh_cidr" {
+  description = "CIDR for accessing machine through ssh"
+}
+
 variable "asg_min" {
   description = "Minimum replica for autoscaling group"
 }
