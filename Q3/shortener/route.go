@@ -12,6 +12,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type Rule struct {
+	IP     string `json:"ip"`
+	Limit  int    `json:"limit"`
+	Time   int    `json:"time"`
+	Count  int
+	Create time.Time
+}
+
+type Rules struct {
+	List []Rule `json:"rules"`
+}
+
 type Config struct {
 	Log       *logrus.Logger
 	Table     string
@@ -25,6 +37,8 @@ type Shortener struct {
 	Config      Config
 	ShortUrlMap models.KVStore
 }
+
+var effectiveRule []*Rule
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -46,6 +60,7 @@ func New(cfg Config) Shortener {
 	}
 
 	s.Router.POST("/newurl", s.shorten)
+	s.Router.POST("/ratelimit", s.ratelimit)
 	s.Router.GET("/:key", s.redirect)
 
 	return s
@@ -120,6 +135,46 @@ func (s *Shortener) shorten(w http.ResponseWriter, r *http.Request, _ httprouter
 	}
 
 	w.Write(json)
+}
+
+func (s *Shortener) ratelimit(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	log := s.Config.Log
+
+	decoder := json.NewDecoder(r.Body)
+	var j Rules
+	err := decoder.Decode(&j)
+	if err != nil {
+		log.Error(err.Error())
+		w.WriteHeader(500)
+		return
+	}
+
+	for _, item := range j.List {
+		effectiveRule = append(effectiveRule, &Rule{
+			IP:     item.IP,
+			Limit:  item.Limit,
+			Time:   item.Time,
+			Count:  0,
+			Create: time.Now(),
+		})
+	}
+
+	reqIP := r.Header.Get("X-REAL-IP")
+
+	for _, item := range effectiveRule {
+		ruleExpired := (item.Create.Unix()*1000+int64(item.Time) < time.Now().Unix()*1000)
+
+		if !ruleExpired && item.IP == reqIP {
+			log.Info("hit")
+			item.Count = item.Count + 1
+
+			if item.Count > item.Limit {
+				http.Error(w, http.StatusText(http.StatusTooManyRequests), http.StatusTooManyRequests)
+				return
+			}
+		}
+	}
+	w.Write([]byte("Rule Received"))
 }
 
 func (s *Shortener) redirect(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
