@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/kyue1005/deepstruggleinspection/Q3/models"
@@ -23,6 +24,10 @@ type Shortener struct {
 	Router      *httprouter.Router
 	Config      Config
 	ShortUrlMap models.KVStore
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }
 
 func New(cfg Config) Shortener {
